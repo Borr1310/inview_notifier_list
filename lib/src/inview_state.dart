@@ -55,7 +55,12 @@ class InViewState extends ChangeNotifier {
     // whether it is in the viewport
     _contexts.forEach((WidgetData item) {
       // Retrieve the RenderObject, linked to a specific item
-      final RenderObject? renderObject = item.context!.findRenderObject();
+      RenderObject? renderObject;
+      try {
+      renderObject = item.context!.findRenderObject();
+      } catch(e) {
+        // ignore - element is probably inactive
+      }
 
       // If none was to be found, or if not attached, leave by now
       if (renderObject == null || !renderObject.attached) {
